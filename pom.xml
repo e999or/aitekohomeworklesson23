@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.e999or.lesson23</groupId>
@@ -12,81 +12,87 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <testng.version>7.1.0</testng.version>
-    <slf4j-log4j12.version>1.7.30</slf4j-log4j12.version>
-    <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-    <selenium-java.version>3.141.59</selenium-java.version>
-    <webdrivermanager.version>3.8.1</webdrivermanager.version>
-    <selenide.version>5.9.0</selenide.version>
-    <browsermob-proxy.version>2.1.5</browsermob-proxy.version>
     <aspectj.version>1.8.10</aspectj.version>
+    <slf4j-log4j12.version>1.7.30</slf4j-log4j12.version>
+    <testng.version>7.1.0</testng.version>
+    <selenide.version>5.9.0</selenide.version>
+    <guava.version>23.0</guava.version>
+    <allure-testng.version>2.13.2</allure-testng.version>
+    <allure-maven.version>2.10.0</allure-maven.version>
+    <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+    <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-      <version>${testng.version}</version>
-    </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
       <version>${slf4j-log4j12.version}</version>
     </dependency>
+
     <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
-      <version>${selenium-java.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.github.bonigarcia</groupId>
-      <artifactId>webdrivermanager</artifactId>
-      <version>${webdrivermanager.version}</version>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>${testng.version}</version>
       <scope>test</scope>
     </dependency>
+
     <dependency>
       <groupId>com.codeborne</groupId>
       <artifactId>selenide</artifactId>
       <version>${selenide.version}</version>
     </dependency>
+
     <dependency>
-      <groupId>net.lightbody.bmp</groupId>
-      <artifactId>browsermob-proxy</artifactId>
-      <version>${browsermob-proxy.version}</version>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>${aspectj.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>io.qameta.allure</groupId>
       <artifactId>allure-testng</artifactId>
-      <version>RELEASE</version>
+      <version>${allure-testng.version}</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>testng</artifactId>
+          <groupId>org.testng</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
+
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-selenide</artifactId>
+      <version>2.13.2</version>
+    </dependency>
+
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven-surefire-plugin.version}</version>
-        <configuration>
-          <suiteXmlFiles>src/test/resources/suites/testng.xml</suiteXmlFiles>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>RELEASE</version>
         <configuration>
           <argLine>
             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
           </argLine>
+          <suiteXmlFiles>src/test/resources/suites/testng.xml</suiteXmlFiles>
         </configuration>
         <dependencies>
           <dependency>
@@ -96,11 +102,14 @@
           </dependency>
         </dependencies>
       </plugin>
+
       <plugin>
         <groupId>io.qameta.allure</groupId>
         <artifactId>allure-maven</artifactId>
-        <version>RELEASE</version>
+        <version>${allure-maven.version}</version>
       </plugin>
+
     </plugins>
   </build>
 </project>
+
