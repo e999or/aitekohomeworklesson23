@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPage {
-
+    @Step("Открыть ссылку")
     LoginPage open() {
         Selenide.open("https://idemo.bspb.ru");
         return this;
