@@ -18,27 +18,25 @@ public class SimpleTest {
     }
 
     @AfterMethod
-    public void afterTestMethod(){
+    public void afterTestMethod() {
 
         LOG.info("After test method");
     }
 
     @Test
     public void shouldAnswerWithTrue() {
-        LoginPage loginPage =  new LoginPage();
+        LoginPage loginPage = new LoginPage();
         ReviewButton reviewButton = new ReviewButton();
         loginPage.open()
-                .clickLoginButton();
-        Assert.assertTrue(loginPage.inspectCodePhone());
+                .clickLoginButton()
+                .inspectCodePhone()
+                .sendKeyskOtpCode("0000")
+                .clikOtpCode();
 
-        loginPage.sendKeyskOtpCode("0000")
-                    .clikOtpCode();
-
-        Assert.assertEquals($("title").getAttribute("innerText"), "Старт -  Интернет банк - Банк Санкт-Петербург");
-        reviewButton.clikIdButton();
-        Assert.assertTrue(reviewButton.inspectTitle());
-
-        reviewButton.clikxPathButton();
-        Assert.assertTrue(reviewButton.inspectTipe());
+        reviewButton.inspectPreReview()
+                .clikIdButton()
+                .inspectFild()
+                .clikxPathButton()
+                .inspectTipe();
     }
 }
